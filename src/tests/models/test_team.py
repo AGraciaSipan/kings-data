@@ -27,7 +27,7 @@ def test_uuid_conversion(team):
 
 
 def test_invalid_uuid_string():
-    with pytest.raises(ValueError, match="Invalid UUID string"):
+    with pytest.raises(ValueError, match="The provided ID 'invalid-uuid-string' is not a valid UUID."):
         Team(
             uuid="invalid-uuid-string",
             kings_name="Kings Team",

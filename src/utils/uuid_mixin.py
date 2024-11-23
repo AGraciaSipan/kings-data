@@ -2,6 +2,8 @@ from uuid import UUID
 
 from pydantic import field_validator
 
+from exceptions.shared_exceptions import InvalidUUIDException
+
 
 class UUIDMixin:
     uuid: str
@@ -9,15 +11,10 @@ class UUIDMixin:
     @field_validator("uuid")
     @classmethod
     def validate_uuid(cls, v) -> UUID:
-        if isinstance(v, str):
-            try:
-                return UUID(v)
-            except ValueError:
-                raise ValueError(f"Invalid UUID string: {v}")
-        elif isinstance(v, UUID):
-            return v
-        else:
-            raise ValueError(f"Invalid UUID format: {v}")
+        try:
+            return UUID(v)
+        except ValueError:
+            raise InvalidUUIDException(v)
 
     @property
     def uuid_str(self) -> str:
