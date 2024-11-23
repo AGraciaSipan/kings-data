@@ -1,4 +1,5 @@
 from pydantic import BaseModel, ConfigDict
+from pydantic_extra_types.color import Color
 
 from enums import Kingdom, Region
 from utils import UUIDMixin
@@ -9,8 +10,8 @@ class Team(BaseModel, UUIDMixin):
     queens_name: str
     acronym: str  # TODO: add regex validation
     region: Region
-    first_color: str  # TODO: hex code validation
-    second_color: str | None = None
+    first_color: Color
+    second_color: Color | None = None
 
     model_config = ConfigDict(frozen=True, use_enum_values=True)
 

@@ -2,6 +2,7 @@ from uuid import UUID
 
 import pytest
 from pydantic import ValidationError
+from pydantic_extra_types.color import Color
 
 from enums import Kingdom, Region
 from models import Team
@@ -18,30 +19,6 @@ def team():
         first_color="blue",
         second_color="white",
     )
-
-
-@pytest.fixture
-def team_factory():
-    def create_team(
-        uuid,
-        kings_name="Kings Team",
-        queens_name="Queens Team",
-        acronym="ABC",
-        region=Region.AM,
-        first_color="blue",
-        second_color="white",
-    ):
-        return Team(
-            uuid=uuid,
-            kings_name=kings_name,
-            queens_name=queens_name,
-            acronym=acronym,
-            region=region,
-            first_color=first_color,
-            second_color=second_color,
-        )
-
-    return create_team
 
 
 def test_uuid_conversion(team):
@@ -68,8 +45,8 @@ def test_team_initialization(team):
     assert team.queens_name == "Queens Team"
     assert team.acronym == "ABC"
     assert team.region == Region.AM.value
-    assert team.first_color == "blue"
-    assert team.second_color == "white"
+    assert team.first_color == Color("blue")
+    assert team.second_color == Color("white")
 
 
 def test_uuid_str_property(team):
