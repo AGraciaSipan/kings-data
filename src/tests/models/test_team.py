@@ -5,6 +5,7 @@ from pydantic import ValidationError
 from pydantic_extra_types.color import Color
 
 from enums import Kingdom, Region
+from exceptions.enum_exceptions import InvalidEnumValueError
 from models import Team
 
 
@@ -61,16 +62,29 @@ def test_get_team_name_default(team):
     assert team_name == "Kings Team"
 
 
-def test_get_team_name_kings(team):
-    team_name = team.get_team_name(Kingdom.KINGS)
+def test_get_team_name_kings_str(team):
+    team_name = team.get_team_name(Kingdom.KINGS.value)
 
     assert team_name == "Kings Team"
 
 
-def test_get_team_name_queens(team):
+def test_get_team_name_queens_str(team):
+    team_name = team.get_team_name(Kingdom.QUEENS.value)
+
+    assert team_name == "Queens Team"
+
+
+def test_get_team_name_queens_enum(team):
     team_name = team.get_team_name(Kingdom.QUEENS)
 
     assert team_name == "Queens Team"
+
+
+def test_get_team_name_wrong_kingdom(team):
+    with pytest.raises(InvalidEnumValueError) as exc:
+        team.get_team_name("invalid")
+
+    assert "Invalid value: 'invalid' for Kingdom. Must be one of" in str(exc.value)
 
 
 def test_team_immutability(team):
