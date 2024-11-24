@@ -111,7 +111,7 @@ def test_duplicate_team_uuids():
         Competition(
             uuid="77777777-7777-7777-7777-777777777777",
             region=Region.AM,
-            kingdom=Kingdom.KINGS,
+            kingdom=Kingdom.QUEENS,
             format=CompetitionFormat.LEAGUE,
             season=2023,
             split=1,
@@ -119,8 +119,8 @@ def test_duplicate_team_uuids():
         )
 
     assert "The following teams have duplicated UUIDs" in str(exc.value)
-    assert "KT1 (12345678-1234-5678-1234-567812345678)" in str(exc.value)
-    assert "KT2 (12345678-1234-5678-1234-567812345678)" in str(exc.value)
+    assert "Queens Team 1 (12345678-1234-5678-1234-567812345678)" in str(exc.value)
+    assert "Queens Team 2 (12345678-1234-5678-1234-567812345678)" in str(exc.value)
 
 
 def test_region_mismatch_in_teams():

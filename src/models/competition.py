@@ -54,7 +54,7 @@ class Competition(BaseModel, UUIDMixin):
                 seen_uuids[team.uuid] = team
 
         if duplicate_teams:
-            duplicate_info = [f"{team.acronym} ({team.uuid})" for team in duplicate_teams]
+            duplicate_info = [f"{team.get_team_name(self.kingdom)} ({team.uuid})" for team in duplicate_teams]
             raise DuplicateTeamUUIDException(duplicate_info)
 
         return self
