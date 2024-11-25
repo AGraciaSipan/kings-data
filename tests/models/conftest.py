@@ -1,7 +1,8 @@
 import pytest
 
 from enums import CompetitionFormat, Kingdom, Region
-from models import Competition, Team
+from models.competition import Competition
+from models.team import Team
 
 
 @pytest.fixture
