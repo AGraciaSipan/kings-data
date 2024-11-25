@@ -10,11 +10,15 @@ class UUIDMixin:
 
     @field_validator("uuid")
     @classmethod
-    def validate_uuid(cls, v) -> UUID:
+    def validate_uuid_field(cls, v) -> UUID:
+        return cls.validate_uuid(v)
+
+    @staticmethod
+    def validate_uuid(value: str) -> UUID:
         try:
-            return UUID(v)
+            return UUID(value)
         except ValueError:
-            raise InvalidUUIDException(v)
+            raise InvalidUUIDException(value)
 
     @property
     def uuid_str(self) -> str:

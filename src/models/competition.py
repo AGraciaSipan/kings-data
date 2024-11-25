@@ -10,7 +10,6 @@ from exceptions.competition_exceptions import (
     RegionMismatchException,
     TeamNotFoundException,
 )
-from exceptions.shared_exceptions import InvalidUUIDException
 from models.team import Team
 from utils import UUIDMixin
 
@@ -67,14 +66,11 @@ class Competition(BaseModel, UUIDMixin):
 
         return self
 
-    def get_team(self, team_uuid_str: str) -> Team:
-        try:
-            team_uuid = UUID(team_uuid_str)
-        except ValueError:
-            raise InvalidUUIDException(team_uuid_str)
+    def get_team(self, team_uuid: str) -> Team:
+        team_uuid = self.validate_uuid(team_uuid)
 
         team = self._teams_dict.get(team_uuid)
         if not team:
-            raise TeamNotFoundException(team_uuid_str)
+            raise TeamNotFoundException(str(team_uuid))
 
         return team
