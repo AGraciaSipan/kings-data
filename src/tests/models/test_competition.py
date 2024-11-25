@@ -178,6 +178,18 @@ def test_get_team_not_found(competition):
         competition.get_team("99999999-9999-9999-9999-999999999999")
 
 
+def test_has_team_by_uuid(competition):
+    result1 = competition.has_team("12345678-1234-5678-1234-567812345678")
+    result2 = competition.has_team("99999999-9999-9999-9999-999999999999")
+    assert result1 is True
+    assert result2 is False
+
+
+def test_has_team_with_invalid_uuid(competition):
+    with pytest.raises(InvalidUUIDException, match="The provided ID 'invalid-uuid-string' is not a valid UUID."):
+        competition.has_team("invalid-uuid-string")
+
+
 def test_competition_immutability(competition):
     with pytest.raises(ValidationError):
         competition.uuid = UUID("98765432-1234-5678-1234-567812345678")

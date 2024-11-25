@@ -74,3 +74,8 @@ class Competition(BaseModel, UUIDMixin):
             raise TeamNotFoundException(str(team_uuid))
 
         return team
+
+    def has_team(self, team_uuid: str) -> bool:
+        team_uuid = self.validate_uuid(team_uuid)
+
+        return team_uuid in self._teams_dict
