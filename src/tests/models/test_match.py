@@ -64,6 +64,33 @@ def test_team_not_in_competition_exception(competition):
         )
 
 
+def test_to_played_match(valid_match):
+    played_match = valid_match.to_played_match(home_goals=2, away_goals=1)
+    assert played_match.uuid == valid_match.uuid
+    assert played_match.competition == valid_match.competition
+    assert played_match.matchday_round == valid_match.matchday_round
+    assert played_match.home_team == valid_match.home_team
+    assert played_match.away_team == valid_match.away_team
+    assert played_match.home_goals == 2
+    assert played_match.away_goals == 1
+    assert played_match.home_shootout_goals is None
+    assert played_match.away_shootout_goals is None
+
+
+def test_to_played_match_with_shootouts(valid_match):
+    played_match = valid_match.to_played_match(home_goals=0, away_goals=0, home_shootout_goals=3, away_shootout_goals=0)
+    assert played_match.home_goals == 0
+    assert played_match.away_goals == 0
+    assert played_match.home_shootout_goals == 3
+    assert played_match.away_shootout_goals == 0
+
+
+def test_is_played(valid_match):
+    played_match = valid_match.to_played_match(home_goals=1, away_goals=0)
+    assert not valid_match.is_played()
+    assert played_match.is_played()
+
+
 def test_invalid_uuid_in_match_creation(competition, teams):
     team_1 = next(team for team in teams if team.uuid_str == "12345678-1234-5678-1234-567812345678")
     team_2 = next(team for team in teams if team.uuid_str == "23456789-1234-5678-1234-567812345678")
